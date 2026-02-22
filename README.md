@@ -190,7 +190,9 @@ def _compute_garantie_status(self):
 - Color-coded warranty bar at bottom
 - Responsive design with flexbox layout
 
-![alt text](image.png)
+![alt text](equipement.PNG)
+![alt text](employees.PNG)
+![alt text](history.PNG)
 
 ## Future Enhancements
 

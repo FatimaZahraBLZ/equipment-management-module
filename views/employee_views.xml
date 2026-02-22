@@ -15,6 +15,7 @@
         <field name="job_title"/>
         <field name="equipment_count"/>
         <field name="active"/>
+        <field name="image"/>
 
         <templates>
           <t t-name="kanban-box">
@@ -25,21 +26,34 @@
                           border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.08);
                           background-color:#ffffff; cursor:pointer;">
 
-                <!-- HEADER SECTION: NAME AND DEPARTMENT -->
-                <div style="padding:14px 14px 12px 14px; flex-grow:1; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #e8e8e8;">
+                <!-- PROFILE PICTURE SECTION -->
+                <div style="width:100%; height:120px; padding:8px; box-sizing:border-box; flex-shrink:0; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); display:flex; align-items:center; justify-content:center;">
+                  <t t-if="record.image.raw_value">
+                    <img t-att-src="kanban_image('gestion.employee', 'image', record.id.raw_value)"
+                         style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid #ffffff; display:block;"
+                         alt="Profil"/>
+                  </t>
+                  <t t-else="">
+                    <div style="width:100px; height:100px; border-radius:50%; background-color:#ffffff; display:flex; align-items:center; justify-content:center; border:3px solid #f0f0f0; font-weight:700; font-size:36px; color:#667eea;">
+                      <t t-esc="record.name.value and record.name.value[0].toUpperCase() or '?'"/>
+                    </div>
+                  </t>
+                </div>
+
+                <!-- HEADER SECTION: NAME AND MATRICULE -->
+                <div style="padding:14px 14px 12px 14px; flex-grow:1; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #e8e8e8; text-align:center;">
 
                   <h4 style="margin:0 0 4px 0; font-weight:700; font-size:14px; color:#1f1f1f;">
                     <field name="name"/>
                   </h4>
 
-                  <div style="font-size:12px; color:#555;">
-                    <span style="font-weight:600;">Matricule : </span>
+                  <div style="font-size:11px; color:#999;">
+                    <span style="font-weight:600;">ID : </span>
                     <span><field name="matricule"/></span>
                   </div>
 
                   <!-- DEPARTMENT WITH DYNAMIC COLORS -->
                   <t t-if="record.department_id.value">
-                    <t t-set="dept_name" t-value="record.department_id.raw_value"/>
                     <t t-set="dept_display" t-value="record.department_id.value"/>
 
                     <!-- INFORMATIQUE - Light Blue -->

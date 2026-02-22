@@ -16,6 +16,7 @@ class GestionEmployee(models.Model):
     manager_id = fields.Many2one("gestion.employee", string="Manager", ondelete="set null")
 
     active = fields.Boolean(default=True)
+    image = fields.Image(string="Photo de profil")
 
     equipment_ids = fields.One2many("gestion.equipement", "employee_id", string="Équipements assignés")
     assignment_history_ids = fields.One2many("gestion.assignment.history", "employee_id", string="Historique des affectations")
