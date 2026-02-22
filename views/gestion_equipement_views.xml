@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- Kanban View (Default) -->
+<record id="view_gestion_equipement_kanban" model="ir.ui.view">
+  <field name="name">gestion.equipement.kanban</field>
+  <field name="model">gestion.equipement</field>
+  <field name="arch" type="xml">
+    <kanban default_group_by="statut" class="o_kanban_small_column">
+      <field name="id"/>
+      <field name="nom"/>
+      <field name="numero_serie"/>
+      <field name="type"/>
+      <field name="statut"/>
+      <field name="employee_id"/>
+      <field name="image"/>
+      <field name="date_expiration_garantie"/>
+      <field name="garantie_status"/>
+      <field name="garantie_days_left"/>
+
+      <templates>
+<t t-name="kanban-box">
+  <a t-attf-href="/web#id={{ record.id.value }}&amp;view_type=form&amp;model=gestion.equipement"
+     style="text-decoration:none; color:inherit; display:block; width:100%; margin-bottom:12px;">
+    <div class="oe_kanban_card"
+         style="width:100%; display:flex; flex-direction:column; height:100%; padding:0;
+                border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.08);
+                background-color:#ffffff; cursor:pointer;">
+
+      <!-- TOP SECTION: IMAGE AREA -->
+      <div style="width:100%; height:220px; padding:4px 4px 18px 4px; box-sizing:border-box; flex-shrink:0;">
+        <div style="width:100%; height:100%; border-radius:10px; overflow:hidden; background:transparent;
+                    display:flex; align-items:stretch; justify-content:stretch;">
+          <t t-if="record.image.raw_value">
+            <img t-att-src="kanban_image('gestion.equipement', 'image', record.id.raw_value)"
+                 style="width:100%; height:100%; object-fit:cover; display:block;"
+                 alt="Équipement"/>
+          </t>
+          <t t-else="">
+            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+                        background: linear-gradient(135deg, #7e7bd5ff 0%, #6A5ACD 55%, #8c2cacff 100%);">
+              <div style="font-size:64px; color:#ffffff; opacity:0.95;">
+                <i class="fa fa-cube"/>
+              </div>
+            </div>
+          </t>
+        </div>
+      </div>
+
+      <!-- MIDDLE SECTION: EQUIPMENT DETAILS -->
+      <div style="padding:14px 14px 12px 14px; flex-grow:1; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #e8e8e8;">
+
+        <h4 style="margin:0 0 4px 0; font-weight:700; font-size:14px; color:#1f1f1f;">
+          <field name="nom"/>
+        </h4>
+
+        <div style="font-size:12px; color:#555;">
+          <span style="font-weight:600;">Type : </span>
+          <span><field name="type"/></span>
+        </div>
+
+        <!-- Status badge (safe) -->
+        <div style="margin-top:6px; display:flex; align-items:center;">
+          <t t-set="st" t-value="record.statut.raw_value"/>
+
+          <t t-if="st == 'disponible'">
+            <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#e8f5e9; border:1px solid #c8e6c9;">
+              <i class="fa fa-check-circle" style="color:#43a047; font-size:14px;"/>
+              <span style="font-size:12px; font-weight:600; color:#2e7d32;">Disponible</span>
+            </div>
+          </t>
+
+          <t t-elif="st == 'assigne'">
+            <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#e3f2fd; border:1px solid #bbdefb;">
+              <i class="fa fa-user" style="color:#1976d2; font-size:14px;"/>
+              <span style="font-size:12px; font-weight:600; color:#0d47a1;">Assigné</span>
+            </div>
+          </t>
+
+          <t t-elif="st == 'reparation'">
+            <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#fff3e0; border:1px solid #ffe0b2;">
+              <i class="fa fa-wrench" style="color:#f57c00; font-size:14px;"/>
+              <span style="font-size:12px; font-weight:600; color:#e65100;">En réparation</span>
+            </div>
+          </t>
+
+          <t t-elif="st == 'retire'">
+            <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#ffebee; border:1px solid #ffcdd2;">
+              <i class="fa fa-times-circle" style="color:#d32f2f; font-size:14px;"/>
+              <span style="font-size:12px; font-weight:600; color:#b71c1c;">Retiré</span>
+            </div>
+          </t>
+
+          <t t-else="">
+            <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#f5f5f5; border:1px solid #e0e0e0;">
+              <i class="fa fa-question-circle" style="color:#777; font-size:14px;"/>
+              <span style="font-size:12px; font-weight:600; color:#555;">Statut inconnu</span>
+            </div>
+          </t>
+        </div>
+
+        <t t-if="record.employee_id.value">
+          <div style="margin-top:4px; font-size:12px; color:#666; display:flex; align-items:center; gap:6px;">
+            <i class="fa fa-id-badge" style="color:#777;"/>
+            <span style="font-weight:600;">Assigné à : </span>
+            <span><field name="employee_id"/></span>
+          </div>
+        </t>
+
+        <div style="font-size:12px; color:#555;">
+          <span style="font-weight:600;">S/N : </span>
+          <span><field name="numero_serie"/></span>
+        </div>
+
+      </div> <!--  close middle section -->
+
+      <!-- BOTTOM SECTION: WARRANTY -->
+      <div style="padding:6px 8px; background-color:#fafafa; flex-shrink:0; display:flex; justify-content:center; align-items:center; min-height:32px;">
+
+        <t t-set="gs" t-value="record.garantie_status.raw_value"/>
+        <t t-set="days" t-value="record.garantie_days_left.raw_value"/>
+
+        <t t-if="gs == 'valid'">
+          <div style="background-color:#f1f8f1; width:calc(100% - 16px); display:flex; justify-content:center; align-items:center; border:1px solid #d4edda; padding:4px 0; margin:0 8px;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#2d7c2d;">
+              <i class="fa fa-shield" style="color:#2e7d32;"/>
+              <span style="font-weight:700;">Garantie OK</span>
+            </div>
+          </div>
+        </t>
+
+        <t t-elif="gs == 'expiring_soon'">
+          <div style="background-color:#fffaf0; width:calc(100% - 16px); display:flex; justify-content:center; align-items:center; border:1px solid #ffe0b2; padding:4px 0; margin:0 8px;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#e89b3c;">
+              <i class="fa fa-exclamation-triangle" style="color:#f9a825;"/>
+              <span style="font-weight:700;">Expire bientôt</span>
+              <t t-if="days and days &lt;= 10">
+                <span style="color:#d97706;">(<t t-esc="days"/> jours)</span>
+              </t>
+            </div>
+          </div>
+        </t>
+
+        <t t-elif="gs == 'expired'">
+          <div style="background-color:#ffebee; width:calc(100% - 16px); display:flex; justify-content:center; align-items:center; border:1px solid #ffcdd2; padding:4px 0; margin:0 8px;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#c62828;">
+              <i class="fa fa-exclamation-circle" style="color:#c62828;"/>
+              <span style="font-weight:700;">Garantie expirée</span>
+            </div>
+          </div>
+        </t>
+
+        <t t-else="">
+          <div style="background-color:#f5f5f5; width:calc(100% - 16px); display:flex; justify-content:center; align-items:center; border:1px solid #e0e0e0; padding:4px 0; margin:0 8px;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#666;">
+              <i class="fa fa-info-circle" style="color:#999;"/>
+              <span>Garantie : non renseignée</span>
+            </div>
+          </div>
+        </t>
+
+      </div> 
+
+    </div> 
+  </a> 
+</t>
+
+      </templates>
+    </kanban>
+  </field>
+</record>
+
+  <!-- Tree View -->
+  <record id="view_gestion_equipement_tree" model="ir.ui.view">
+    <field name="name">gestion.equipement.tree</field>
+    <field name="model">gestion.equipement</field>
+    <field name="arch" type="xml">
+      <tree string="Équipements">
+        <field name="nom"/>
+        <field name="numero_serie"/>
+        <field name="type"/>
+        <field name="statut" widget="badge"
+               decoration-success="statut == 'disponible'"
+               decoration-info="statut == 'assigne'"
+               decoration-warning="statut == 'reparation'"
+               decoration-danger="statut == 'retire'"/>
+        <field name="employee_id"/>
+        <field name="date_achat"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- Form View -->
+  <record id="view_gestion_equipement_form" model="ir.ui.view">
+    <field name="name">gestion.equipement.form</field>
+    <field name="model">gestion.equipement</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_assign_wizard" type="object"
+                    class="oe_inline oe_button" string="Assigner" icon="fa-user-plus"
+                    invisible="statut in ('reparation','retire')"/>
+            <button name="action_open_return_wizard" type="object"
+                    class="oe_inline oe_button" string="Retourner" icon="fa-arrow-left"
+                    invisible="statut != 'assigne'"/>
+          </div>
+
+          <field name="image" widget="image" class="oe_avatar"/>
+
+          <div class="oe_title">
+            <h1><field name="nom" placeholder="Nom de l'équipement"/></h1>
+          </div>
+
+          <group>
+            <group>
+              <field name="numero_serie"/>
+              <field name="type"/>
+              <field name="statut"/>
+            </group>
+            <group>
+              <field name="employee_id"/>
+              <field name="date_achat"/>
+              <field name="date_expiration_garantie"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- Search View -->
+  <record id="view_gestion_equipement_search" model="ir.ui.view">
+    <field name="name">gestion.equipement.search</field>
+    <field name="model">gestion.equipement</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="nom"/>
+        <field name="numero_serie"/>
+        <field name="type"/>
+        <field name="employee_id"/>
+        <filter string="Disponible" name="filter_disponible" domain="[('statut','=','disponible')]"/>
+        <filter string="Assigné" name="filter_assigne" domain="[('statut','=','assigne')]"/>
+        <filter string="Réparation" name="filter_reparation" domain="[('statut','=','reparation')]"/>
+        <filter string="Retiré" name="filter_retire" domain="[('statut','=','retire')]"/>
+      </search>
+    </field>
+  </record>
+
+  <!-- Action Equipements -->
+  <record id="action_gestion_equipement" model="ir.actions.act_window">
+    <field name="name">Équipements</field>
+    <field name="res_model">gestion.equipement</field>
+    <field name="view_mode">kanban,tree,form</field>
+  </record>
+
+  <!-- Type Views -->
+  <record id="view_gestion_equipement_type_tree" model="ir.ui.view">
+    <field name="name">gestion.equipement.type.tree</field>
+    <field name="model">gestion.equipement.type</field>
+    <field name="arch" type="xml">
+      <tree string="Types d'équipement">
+        <field name="name"/>
+        <field name="description"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="view_gestion_equipement_type_form" model="ir.ui.view">
+    <field name="name">gestion.equipement.type.form</field>
+    <field name="model">gestion.equipement.type</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="description"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_gestion_equipement_type" model="ir.actions.act_window">
+    <field name="name">Types d'équipement</field>
+    <field name="res_model">gestion.equipement.type</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+</odoo>

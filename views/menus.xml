@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_gestion_root" name="Gestion des Équipements" sequence="10"/>
+
+    <menuitem id="menu_gestion_operations" name="Opérations" parent="menu_gestion_root" sequence="10"/>
+    <menuitem id="menu_gestion_config" name="Configuration" parent="menu_gestion_root" sequence="20"/>
+
+    <menuitem id="menu_gestion_equipements" name="Équipements" parent="menu_gestion_operations"
+              action="action_gestion_equipement" sequence="10"/>
+    <menuitem id="menu_gestion_employees" name="Employés" parent="menu_gestion_operations"
+              action="gestion_employee_action" sequence="20"/>
+    <menuitem id="menu_gestion_assignment_history" name="Historique des affectations" parent="menu_gestion_operations"
+              action="gestion_assignment_history_action" sequence="30"/>
+
+    <menuitem id="menu_gestion_departments" name="Départements" parent="menu_gestion_config"
+              action="gestion_department_action" sequence="10"/>
+    <menuitem id="menu_gestion_equipment_types" name="Types d'équipement" parent="menu_gestion_config"
+              action="action_gestion_equipement_type" sequence="20"/>
+</odoo>

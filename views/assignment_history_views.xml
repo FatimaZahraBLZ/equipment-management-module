@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Assignment History Tree View (Read-only) -->
+  <record id="gestion_assignment_history_tree" model="ir.ui.view">
+    <field name="name">gestion.assignment.history.tree</field>
+    <field name="model">gestion.assignment.history</field>
+    <field name="arch" type="xml">
+      <tree create="false" delete="false" edit="false">
+        <field name="equipment_id"/>
+        <field name="employee_id"/>
+        <field name="date_from"/>
+        <field name="date_to"/>
+        <field name="state" widget="badge" decoration-success="state == 'active'" decoration-warning="state == 'transfer'" decoration-danger="state == 'returned'"/>
+        <field name="assigned_by"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- Assignment History Form View (Read-only) -->
+  <record id="gestion_assignment_history_form" model="ir.ui.view">
+    <field name="name">gestion.assignment.history.form</field>
+    <field name="model">gestion.assignment.history</field>
+    <field name="arch" type="xml">
+      <form create="false" delete="false" edit="false">
+        <sheet>
+          <group>
+            <group>
+              <field name="equipment_id"/>
+              <field name="employee_id"/>
+              <field name="assigned_by"/>
+            </group>
+            <group>
+              <field name="state" widget="badge" decoration-success="state == 'active'" decoration-warning="state == 'transfer'" decoration-danger="state == 'returned'"/>
+              <field name="date_from"/>
+              <field name="date_to"/>
+            </group>
+          </group>
+          <field name="note" placeholder="Notes ou remarques..."/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- Assignment History Search View -->
+  <record id="gestion_assignment_history_search" model="ir.ui.view">
+    <field name="name">gestion.assignment.history.search</field>
+    <field name="model">gestion.assignment.history</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="equipment_id"/>
+        <field name="employee_id"/>
+        <field name="assigned_by"/>
+        <separator/>
+        <filter name="active_assignment" string="Actifs" domain="[('state', '=', 'active'), ('date_to', '=', False)]"/>
+        <filter name="returned_assignment" string="Retournés" domain="[('state', '=', 'returned')]"/>
+        <filter name="transferred_assignment" string="Transférés" domain="[('state', '=', 'transfer')]"/>
+        <group expand="0" string="Grouper par">
+          <filter name="group_by_employee" string="Employé" context="{'group_by': 'employee_id'}"/>
+          <filter name="group_by_state" string="État" context="{'group_by': 'state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <!-- Assignment History Action -->
+  <record id="gestion_assignment_history_action" model="ir.actions.act_window">
+    <field name="name">Historique d'Assignments</field>
+    <field name="res_model">gestion.assignment.history</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{"search_default_active_assignment": 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Aucun historique d'assignment.
+      </p>
+    </field>
+  </record>
+</odoo>

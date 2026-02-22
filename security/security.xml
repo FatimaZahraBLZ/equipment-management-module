@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_gestion_equipements_user" model="res.groups">
+        <field name="name">Gestion Équipements / Utilisateur</field>
+        <field name="category_id" ref="base.module_category_administration"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="group_gestion_equipements_manager" model="res.groups">
+        <field name="name">Gestion Équipements / Manager</field>
+        <field name="implied_ids" eval="[(4, ref('gestion_equipements.group_gestion_equipements_user'))]"/>
+        <field name="category_id" ref="base.module_category_administration"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

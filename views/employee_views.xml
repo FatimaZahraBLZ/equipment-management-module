@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Employee Tree View -->
+  <record id="gestion_employee_tree" model="ir.ui.view">
+    <field name="name">gestion.employee.tree</field>
+    <field name="model">gestion.employee</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="matricule"/>
+        <field name="name"/>
+        <field name="email"/>
+        <field name="department_id"/>
+        <field name="job_title"/>
+        <field name="equipment_count"/>
+        <field name="active"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- Employee Form View -->
+  <record id="gestion_employee_form" model="ir.ui.view">
+    <field name="name">gestion.employee.form</field>
+    <field name="model">gestion.employee</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <group>
+              <field name="matricule"/>
+              <field name="name"/>
+              <field name="department_id"/>
+              <field name="job_title"/>
+              <field name="manager_id"/>
+              <field name="active"/>
+            </group>
+            <group>
+              <field name="email"/>
+              <field name="phone"/>
+            </group>
+          </group>
+
+          <notebook>
+            <page string="Équipements affectés">
+              <field name="equipment_ids">
+                <tree>
+                  <field name="nom"/>
+                  <field name="numero_serie"/>
+                  <field name="type"/>
+                  <field name="statut"/>
+                  <field name="date_achat"/>
+                </tree>
+              </field>
+            </page>
+
+            <page string="Historique">
+              <field name="assignment_history_ids">
+                <tree>
+                  <field name="equipment_id"/>
+                  <field name="date_from"/>
+                  <field name="date_to"/>
+                  <field name="state"/>
+                  <field name="assigned_by"/>
+                </tree>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- Action -->
+  <record id="gestion_employee_action" model="ir.actions.act_window">
+    <field name="name">Employés</field>
+    <field name="res_model">gestion.employee</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+</odoo>
