@@ -47,3 +47,12 @@ class GestionEmployee(models.Model):
             "domain": [("employee_id", "=", self.id)],
             "context": {"default_employee_id": self.id},
         }
+
+    def action_back_to_kanban(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "gestion.employee",
+            "view_mode": "kanban",
+            "views": [(False, "kanban")],
+            "target": "current",
+        }

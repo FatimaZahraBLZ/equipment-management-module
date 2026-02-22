@@ -1,5 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <!-- Employee Kanban View -->
+  <record id="gestion_employee_kanban" model="ir.ui.view">
+    <field name="name">gestion.employee.kanban</field>
+    <field name="model">gestion.employee</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_small_column">
+        <field name="id"/>
+        <field name="name"/>
+        <field name="matricule"/>
+        <field name="email"/>
+        <field name="phone"/>
+        <field name="department_id"/>
+        <field name="job_title"/>
+        <field name="equipment_count"/>
+        <field name="active"/>
+
+        <templates>
+          <t t-name="kanban-box">
+            <a t-attf-href="/web#id={{ record.id.value }}&amp;view_type=form&amp;model=gestion.employee"
+               style="text-decoration:none; color:inherit; display:block; width:100%; margin-bottom:12px;">
+              <div class="oe_kanban_card"
+                   style="width:100%; display:flex; flex-direction:column; height:100%; padding:0;
+                          border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.08);
+                          background-color:#ffffff; cursor:pointer;">
+
+                <!-- HEADER SECTION: NAME AND DEPARTMENT -->
+                <div style="padding:14px 14px 12px 14px; flex-grow:1; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #e8e8e8;">
+
+                  <h4 style="margin:0 0 4px 0; font-weight:700; font-size:14px; color:#1f1f1f;">
+                    <field name="name"/>
+                  </h4>
+
+                  <div style="font-size:12px; color:#555;">
+                    <span style="font-weight:600;">Matricule : </span>
+                    <span><field name="matricule"/></span>
+                  </div>
+
+                  <!-- DEPARTMENT WITH DYNAMIC COLORS -->
+                  <t t-if="record.department_id.value">
+                    <t t-set="dept_name" t-value="record.department_id.raw_value"/>
+                    <t t-set="dept_display" t-value="record.department_id.value"/>
+
+                    <!-- INFORMATIQUE - Light Blue -->
+                    <t t-if="dept_display and dept_display.toLowerCase().indexOf('informatique') >= 0">
+                      <div style="font-size:12px; color:#0d47a1; background-color:#e3f2fd; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+
+                    <!-- FINANCE - Light Green -->
+                    <t t-elif="dept_display and dept_display.toLowerCase().indexOf('finance') >= 0">
+                      <div style="font-size:12px; color:#1b5e20; background-color:#e8f5e9; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+
+                    <!-- RESSOURCES HUMAINES - Light Orange -->
+                    <t t-elif="dept_display and (dept_display.toLowerCase().indexOf('ressources') >= 0 or dept_display.toLowerCase().indexOf('rh') >= 0)">
+                      <div style="font-size:12px; color:#e65100; background-color:#fff3e0; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+
+                    <!-- VENTES - Light Red -->
+                    <t t-elif="dept_display and dept_display.toLowerCase().indexOf('ventes') >= 0">
+                      <div style="font-size:12px; color:#b71c1c; background-color:#ffebee; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+
+                    <!-- MARKETING - Light Pink -->
+                    <t t-elif="dept_display and dept_display.toLowerCase().indexOf('marketing') >= 0">
+                      <div style="font-size:12px; color:#a1004b; background-color:#fce4ec; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+
+                    <!-- OPERATIONS - Light Cyan -->
+                    <t t-elif="dept_display and dept_display.toLowerCase().indexOf('operations') >= 0">
+                      <div style="font-size:12px; color:#00838f; background-color:#e0f2f1; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+
+                    <!-- DEFAULT - Light Purple -->
+                    <t t-else="">
+                      <div style="font-size:12px; color:#5e35b1; background-color:#f3e5f5; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Département : </span>
+                        <span><field name="department_id"/></span>
+                      </div>
+                    </t>
+                  </t>
+
+                  <!-- JOB TITLE WITH DYNAMIC COLORS -->
+                  <t t-if="record.job_title.value">
+                    <t t-set="job_display" t-value="record.job_title.value"/>
+
+                    <!-- TECHNICIEN/TECH - Light Purple -->
+                    <t t-if="job_display and job_display.toLowerCase().indexOf('technic') >= 0">
+                      <div style="font-size:12px; color:#5e35b1; background-color:#f3e5f5; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- MANAGER/DIRECTEUR - Light Red -->
+                    <t t-elif="job_display and (job_display.toLowerCase().indexOf('manager') >= 0 or job_display.toLowerCase().indexOf('directeur') >= 0 or job_display.toLowerCase().indexOf('responsable') >= 0)">
+                      <div style="font-size:12px; color:#b71c1c; background-color:#ffebee; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- DEVELOPER/DEVELOPPEUR - Light Blue -->
+                    <t t-elif="job_display and (job_display.toLowerCase().indexOf('developer') >= 0 or job_display.toLowerCase().indexOf('developpeur') >= 0 or job_display.toLowerCase().indexOf('dev') >= 0)">
+                      <div style="font-size:12px; color:#0d47a1; background-color:#e3f2fd; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- ANALYST/ANALYSTE - Light Cyan -->
+                    <t t-elif="job_display and (job_display.toLowerCase().indexOf('analyst') >= 0 or job_display.toLowerCase().indexOf('analyste') >= 0)">
+                      <div style="font-size:12px; color:#00838f; background-color:#e0f2f1; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- ACCOUNTANT/COMPTABLE - Light Green -->
+                    <t t-elif="job_display and (job_display.toLowerCase().indexOf('account') >= 0 or job_display.toLowerCase().indexOf('comptabl') >= 0)">
+                      <div style="font-size:12px; color:#1b5e20; background-color:#e8f5e9; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- CONSULTANT/CONSULTANT - Light Orange -->
+                    <t t-elif="job_display and job_display.toLowerCase().indexOf('consultant') >= 0">
+                      <div style="font-size:12px; color:#e65100; background-color:#fff3e0; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- ADMIN/ADMINISTRATEUR - Light Yellow -->
+                    <t t-elif="job_display and (job_display.toLowerCase().indexOf('admin') >= 0 or job_display.toLowerCase().indexOf('administrateur') >= 0)">
+                      <div style="font-size:12px; color:#f57f17; background-color:#fffde7; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+
+                    <!-- DEFAULT - Light Purple -->
+                    <t t-else="">
+                      <div style="font-size:12px; color:#5e35b1; background-color:#f3e5f5; padding:6px 8px; border-radius:4px;">
+                        <span style="font-weight:600;">Poste : </span>
+                        <span><field name="job_title"/></span>
+                      </div>
+                    </t>
+                  </t>
+
+                </div>
+
+                <!-- BOTTOM SECTION: CONTACT AND EQUIPMENT COUNT -->
+                <div style="padding:12px 14px; background-color:#fafafa; flex-shrink:0; display:flex; flex-direction:column; gap:6px;">
+
+                  <t t-if="record.email.value">
+                    <div style="font-size:11px; color:#666; display:flex; align-items:center; gap:6px;">
+                      <i class="fa fa-envelope" style="color:#999;"/>
+                      <span><field name="email"/></span>
+                    </div>
+                  </t>
+
+                  <t t-if="record.phone.value">
+                    <div style="font-size:11px; color:#666; display:flex; align-items:center; gap:6px;">
+                      <i class="fa fa-phone" style="color:#999;"/>
+                      <span><field name="phone"/></span>
+                    </div>
+                  </t>
+
+                  <div style="font-size:12px; color:#1f1f1f; display:flex; align-items:center; gap:6px; padding:6px 0; border-top:1px solid #e8e8e8; margin-top:4px;">
+                    <i class="fa fa-cube" style="color:#4a6cf7;"/>
+                    <span style="font-weight:600;">Équipements assignés : </span>
+                    <span style="background-color:#e3f2fd; padding:2px 8px; border-radius:12px; color:#0d47a1; font-weight:600;">
+                      <field name="equipment_count"/>
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </a>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
   <!-- Employee Tree View -->
   <record id="gestion_employee_tree" model="ir.ui.view">
     <field name="name">gestion.employee.tree</field>
@@ -23,6 +228,10 @@
     <field name="model">gestion.employee</field>
     <field name="arch" type="xml">
       <form>
+        <header>
+          <button name="action_back_to_kanban" type="object" class="oe_link" title="Retour à la liste"
+                  icon="fa-arrow-left" style="font-size:20px; color:#666; padding:0;"/>
+        </header>
         <sheet>
           <group>
             <group>
@@ -73,6 +282,6 @@
   <record id="gestion_employee_action" model="ir.actions.act_window">
     <field name="name">Employés</field>
     <field name="res_model">gestion.employee</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">kanban,tree,form</field>
   </record>
 </odoo>
