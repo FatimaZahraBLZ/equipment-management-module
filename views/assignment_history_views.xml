@@ -51,7 +51,7 @@
         <field name="employee_id"/>
         <field name="assigned_by"/>
         <separator/>
-        <filter name="active_assignment" string="Actifs" domain="[('state', '=', 'active'), ('date_to', '=', False)]"/>
+        <filter name="active_assignment" string="Actifs" domain="[('state', '=', 'active')]"/>
         <filter name="returned_assignment" string="Retournés" domain="[('state', '=', 'returned')]"/>
         <filter name="transferred_assignment" string="Transférés" domain="[('state', '=', 'transfer')]"/>
         <group expand="0" string="Grouper par">
@@ -67,7 +67,6 @@
     <field name="name">Historique d'Assignments</field>
     <field name="res_model">gestion.assignment.history</field>
     <field name="view_mode">tree,form</field>
-    <field name="context">{"search_default_active_assignment": 1}</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">
         Aucun historique d'assignment.

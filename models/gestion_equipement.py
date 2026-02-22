@@ -131,3 +131,13 @@ class GestionEquipement(models.Model):
             "target": "new",
             "context": {"default_equipment_id": self.id},
         }
+
+    def action_back_to_kanban(self):
+        """Navigate back to equipment kanban view"""
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Équipements",
+            "res_model": "gestion.equipement",
+            "view_mode": "kanban,tree,form",
+            "target": "current",
+        }
