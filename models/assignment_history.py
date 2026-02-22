@@ -40,3 +40,12 @@ class GestionAssignmentHistory(models.Model):
                 ])
                 if conflicting:
                     raise ValidationError(f"L'équipement {rec.equipment_id.nom} a déjà une affectation active.")
+
+    def action_back_to_kanban(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "gestion.assignment.history",
+            "view_mode": "kanban",
+            "views": [(False, "kanban")],
+            "target": "current",
+        }

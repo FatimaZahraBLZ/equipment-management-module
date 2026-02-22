@@ -1,5 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <!-- Assignment History Kanban View -->
+  <record id="gestion_assignment_history_kanban" model="ir.ui.view">
+    <field name="name">gestion.assignment.history.kanban</field>
+    <field name="model">gestion.assignment.history</field>
+    <field name="arch" type="xml">
+      <kanban default_group_by="state" class="o_kanban_small_column">
+        <field name="id"/>
+        <field name="equipment_id"/>
+        <field name="employee_id"/>
+        <field name="date_from"/>
+        <field name="date_to"/>
+        <field name="state"/>
+        <field name="assigned_by"/>
+        <field name="note"/>
+
+        <templates>
+          <t t-name="kanban-box">
+            <a t-attf-href="/web#id={{ record.id.value }}&amp;view_type=form&amp;model=gestion.assignment.history"
+               style="text-decoration:none; color:inherit; display:block; width:100%; margin-bottom:12px;">
+              <div class="oe_kanban_card"
+                   style="width:100%; display:flex; flex-direction:column; height:100%; padding:0;
+                          border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.08);
+                          background-color:#ffffff; cursor:pointer;">
+
+                <!-- HEADER SECTION -->
+                <div style="padding:14px 14px 12px 14px; flex-grow:1; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #e8e8e8;">
+
+                  <h4 style="margin:0 0 4px 0; font-weight:700; font-size:14px; color:#1f1f1f;">
+                    <field name="equipment_id"/>
+                  </h4>
+
+                  <div style="font-size:12px; color:#555;">
+                    <span style="font-weight:600;">Employé : </span>
+                    <span><field name="employee_id"/></span>
+                  </div>
+
+                  <div style="font-size:12px; color:#555;">
+                    <span style="font-weight:600;">Assigné par : </span>
+                    <span><field name="assigned_by"/></span>
+                  </div>
+
+                </div>
+
+                <!-- BOTTOM SECTION: DATES AND STATE -->
+                <div style="padding:12px 14px; background-color:#fafafa; flex-shrink:0; display:flex; flex-direction:column; gap:8px;">
+
+                  <div style="font-size:11px; color:#666;">
+                    <span style="font-weight:600;">Début : </span>
+                    <span><field name="date_from"/></span>
+                  </div>
+
+                  <t t-if="record.date_to.value">
+                    <div style="font-size:11px; color:#666;">
+                      <span style="font-weight:600;">Fin : </span>
+                      <span><field name="date_to"/></span>
+                    </div>
+                  </t>
+
+                  <!-- STATE BADGE -->
+                  <t t-set="st" t-value="record.state.raw_value"/>
+
+                  <t t-if="st == 'active'">
+                    <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#e8f5e9; border:1px solid #c8e6c9;">
+                      <i class="fa fa-check-circle" style="color:#43a047; font-size:14px;"/>
+                      <span style="font-size:12px; font-weight:600; color:#2e7d32;">Actif</span>
+                    </div>
+                  </t>
+
+                  <t t-elif="st == 'returned'">
+                    <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#ffebee; border:1px solid #ffcdd2;">
+                      <i class="fa fa-times-circle" style="color:#d32f2f; font-size:14px;"/>
+                      <span style="font-size:12px; font-weight:600; color:#b71c1c;">Retourné</span>
+                    </div>
+                  </t>
+
+                  <t t-elif="st == 'transfer'">
+                    <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#fff3e0; border:1px solid #ffe0b2;">
+                      <i class="fa fa-exchange" style="color:#f57c00; font-size:14px;"/>
+                      <span style="font-size:12px; font-weight:600; color:#e65100;">Transféré</span>
+                    </div>
+                  </t>
+
+                  <t t-else="">
+                    <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px; background-color:#f5f5f5; border:1px solid #e0e0e0;">
+                      <i class="fa fa-question-circle" style="color:#777; font-size:14px;"/>
+                      <span style="font-size:12px; font-weight:600; color:#555;">État inconnu</span>
+                    </div>
+                  </t>
+
+                </div>
+
+              </div>
+            </a>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
   <!-- Assignment History Tree View (Read-only) -->
   <record id="gestion_assignment_history_tree" model="ir.ui.view">
     <field name="name">gestion.assignment.history.tree</field>
@@ -22,6 +121,10 @@
     <field name="model">gestion.assignment.history</field>
     <field name="arch" type="xml">
       <form create="false" delete="false" edit="false">
+        <header>
+          <button name="action_back_to_kanban" type="object" class="oe_link" title="Retour à la liste"
+                  icon="fa-arrow-left" style="font-size:20px; color:#666; padding:0;"/>
+        </header>
         <sheet>
           <group>
             <group>
@@ -66,7 +169,7 @@
   <record id="gestion_assignment_history_action" model="ir.actions.act_window">
     <field name="name">Historique d'Assignments</field>
     <field name="res_model">gestion.assignment.history</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">kanban,tree,form</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">
         Aucun historique d'assignment.
