@@ -1,0 +1,23 @@
+nom,numero_serie,type/name,date_achat,date_expiration_garantie,statut
+HP ProBook 450,HP2024001,Laptop,2023-01-15,2025-01-15,disponible
+Dell Latitude 5000,DELL2024002,Laptop,2023-02-20,2025-02-20,disponible
+Lenovo ThinkPad,LENOVO2024003,Laptop,2023-03-10,2025-03-10,disponible
+HP EliteDesk,HP2024004,Desktop,2022-06-15,2024-06-15,disponible
+Dell OptiPlex,DELL2024005,Desktop,2022-07-20,2024-07-20,disponible
+LG UltraWide Monitor,LG2024006,Monitor,2023-01-01,2025-01-01,disponible
+BenQ PD Series,BENQ2024007,Monitor,2023-02-01,2025-02-01,disponible
+Dell S-Series,DELL2024008,Monitor,2023-03-01,2025-03-01,disponible
+HP OfficeJet 8000,HP2024009,Printer,2022-08-15,2024-08-15,disponible
+Canon ImageRunner,CANON2024010,Printer,2022-09-20,2024-09-20,disponible
+Cisco Catalyst,CISCO2024011,Server,2021-05-10,2026-05-10,disponible
+HP ProLiant Server,HP2024012,Server,2021-06-15,2026-06-15,disponible
+Juniper EX4600,JUNIPER2024013,Router,2022-03-01,2025-03-01,disponible
+Cisco ASR 1000,CISCO2024014,Router,2022-04-15,2025-04-15,disponible
+Arista DCS-7050,ARISTA2024015,Switch,2022-01-01,2025-01-01,disponible
+Cisco Nexus 9000,CISCO2024016,Switch,2022-02-15,2025-02-15,disponible
+Eaton 9PX UPS,EATON2024017,UPS,2022-11-01,2027-11-01,disponible
+APC Smart-UPS,APC2024018,UPS,2023-01-15,2028-01-15,disponible
+Fujitsu ScanSnap,FUJITSU2024019,Scanner,2023-02-01,2025-02-01,disponible
+Epson WorkForce,EPSON2024020,Scanner,2023-03-01,2025-03-01,disponible
+Epson EB-2250U,EPSON2024021,Projector,2022-10-01,2025-10-01,disponible
+Sony VPL-FHZ100,SONY2024022,Projector,2022-11-15,2025-11-15,disponible

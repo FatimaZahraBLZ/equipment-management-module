@@ -1,0 +1,18 @@
+matricule,name,email,phone,department_id/name,job_title,manager_id/matricule,active
+MAT001,Ahmed Hassan,ahmed.hassan@company.com,+212 6 12 34 56 78,Informatique,Responsable IT,MAT001,True
+MAT002,Fatima Boulouiz,fatima.boulouiz@company.com,+212 6 23 45 67 89,Finance,Manager Financier,MAT002,True
+MAT003,Mohammed Alaoui,mohammed.alaoui@company.com,+212 6 34 56 78 90,Ressources Humaines,Directeur RH,MAT003,True
+MAT004,Sarah Johnson,sarah.johnson@company.com,+212 6 45 67 89 01,Ventes,Manager Ventes,MAT004,True
+MAT005,Youssef Bennani,youssef.bennani@company.com,+212 6 56 78 90 12,Marketing,Directeur Marketing,MAT005,True
+MAT006,Leila Tahiri,leila.tahiri@company.com,+212 6 67 89 01 23,Operations,Manager Operations,MAT006,True
+MAT007,Karim Belaid,karim.belaid@company.com,+212 6 78 90 12 34,Informatique,Développeur Senior,MAT001,True
+MAT008,Amel Zahra,amel.zahra@company.com,+212 6 89 01 23 45,Informatique,Développeur,MAT001,True
+MAT009,Hassan Rachid,hassan.rachid@company.com,+212 6 90 12 34 56,Informatique,Technicien IT,MAT001,True
+MAT010,Amira Chakir,amira.chakir@company.com,+212 6 01 23 45 67,Informatique,Administrateur Système,MAT001,True
+MAT011,Noor Karim,noor.karim@company.com,+212 6 12 34 56 79,Finance,Comptable,MAT002,True
+MAT012,Rania Souki,rania.souki@company.com,+212 6 23 45 67 80,Finance,Analyste Financier,MAT002,True
+MAT013,Khalid Azzouzi,khalid.azzouzi@company.com,+212 6 34 56 78 91,Ressources Humaines,Consultant RH,MAT003,True
+MAT014,Dina Faraji,dina.faraji@company.com,+212 6 45 67 89 02,Ventes,Commercial,MAT004,True
+MAT015,Hassan Mourad,hassan.mourad@company.com,+212 6 56 78 90 13,Ventes,Commercial,MAT004,True
+MAT016,Ilham Bennani,ilham.bennani@company.com,+212 6 67 89 01 24,Marketing,Spécialiste Marketing,MAT005,True
+MAT017,Mohamed Tahir,mohamed.tahir@company.com,+212 6 78 90 12 35,Operations,Coordinateur,MAT006,True
