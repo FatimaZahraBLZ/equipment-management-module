@@ -15,6 +15,15 @@ class GestionEquipementType(models.Model):
         ("name_unique", "unique(name)", "Le type d'équipement doit être unique."),
     ]
 
+    def action_back_to_kanban(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "gestion.equipement.type",
+            "view_mode": "kanban",
+            "views": [(False, "kanban")],
+            "target": "current",
+        }
+
 
 class GestionEquipement(models.Model):
     _name = "gestion.equipement"

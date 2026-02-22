@@ -1,5 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <!-- Department Kanban View -->
+  <record id="gestion_department_kanban" model="ir.ui.view">
+    <field name="name">gestion.department.kanban</field>
+    <field name="model">gestion.department</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_small_column">
+        <field name="id"/>
+        <field name="name"/>
+        <field name="manager_id"/>
+
+        <templates>
+          <t t-name="kanban-box">
+            <a t-attf-href="/web#id={{ record.id.value }}&amp;view_type=form&amp;model=gestion.department"
+               style="text-decoration:none; color:inherit; display:block; width:100%; margin-bottom:12px;">
+              <div class="oe_kanban_card"
+                   style="width:100%; display:flex; flex-direction:column; height:100%; padding:0;
+                          border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.08);
+                          background-color:#ffffff; cursor:pointer;">
+
+                <!-- HEADER SECTION -->
+                <div style="padding:14px 14px 12px 14px; flex-grow:1; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #e8e8e8;">
+
+                  <h4 style="margin:0 0 4px 0; font-weight:700; font-size:14px; color:#1f1f1f;">
+                    <field name="name"/>
+                  </h4>
+
+                </div>
+
+                <!-- BOTTOM SECTION: MANAGER -->
+                <div style="padding:12px 14px; background-color:#fafafa; flex-shrink:0; display:flex; flex-direction:column; gap:6px;">
+
+                  <t t-if="record.manager_id.value">
+                    <div style="font-size:12px; color:#1f1f1f; display:flex; align-items:center; gap:6px;">
+                      <i class="fa fa-user-tie" style="color:#4a6cf7;"/>
+                      <span style="font-weight:600;">Manager : </span>
+                      <span><field name="manager_id"/></span>
+                    </div>
+                  </t>
+
+                  <t t-else="">
+                    <div style="font-size:12px; color:#999; display:flex; align-items:center; gap:6px; font-style:italic;">
+                      <i class="fa fa-info-circle" style="color:#ccc;"/>
+                      <span>Aucun manager assigné</span>
+                    </div>
+                  </t>
+
+                </div>
+
+              </div>
+            </a>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
   <!-- Department Tree View -->
   <record id="gestion_department_tree" model="ir.ui.view">
     <field name="name">gestion.department.tree</field>
@@ -18,6 +74,10 @@
     <field name="model">gestion.department</field>
     <field name="arch" type="xml">
       <form>
+        <header>
+          <button name="action_back_to_kanban" type="object" class="oe_link" title="Retour à la liste"
+                  icon="fa-arrow-left" style="font-size:20px; color:#666; padding:0;"/>
+        </header>
         <sheet>
           <div class="oe_title">
             <h1><field name="name" placeholder="Nom du département"/></h1>
@@ -46,7 +106,7 @@
   <record id="gestion_department_action" model="ir.actions.act_window">
     <field name="name">Départements</field>
     <field name="res_model">gestion.department</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">kanban,tree,form</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">
         Aucun département. Créez le premier!
